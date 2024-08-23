@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('SwiftCloud API')
     .setDescription('SwiftCloud API documentation')
     .setVersion('1.0')
-    .addTag('songs')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

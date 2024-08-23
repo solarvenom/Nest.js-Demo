@@ -3,19 +3,20 @@ services:
     env_file: ".env"
     image: postgres
     restart: always
-    container_name: swiftcloud-postgres
+    container_name: ${DB_CONTAINER_NAME}
     ports:
       - '${DB_PORT}:${DB_PORT}'
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
 
   app:
     env_file: ".env"
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: swiftcloud-app
+    container_name: ${APP_CONTAINER_NAME}
     ports:
       - '${APP_PORT}:${APP_PORT}'
     depends_on:
