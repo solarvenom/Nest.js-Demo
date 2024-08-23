@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
-import { Song } from './song.entity'
+import { SongEntity } from './song.entity'
 
 @Entity()
-export class Writer {
+export class WriterEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 50 })
   name: string;
 
-  @ManyToMany(() => Song, (song) => song.writer)
-  songs: Song[]
+  @ManyToMany(() => SongEntity, (song) => song.writer)
+  songs: SongEntity[]
 }

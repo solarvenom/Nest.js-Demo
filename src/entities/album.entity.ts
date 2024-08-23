@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Song } from './song.entity'
+import { SongEntity } from './song.entity'
 
 @Entity()
-export class Album {
+export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,6 +12,6 @@ export class Album {
   @Column('int')
   year: number;
 
-  @OneToMany(() => Song, (song) => song.album)
-  songs: Song[]
+  @OneToMany(() => SongEntity, (song) => song.album)
+  songs: SongEntity[]
 }
