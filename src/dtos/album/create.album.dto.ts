@@ -3,7 +3,7 @@ import { MaxLength, IsNotEmpty, IsString, IsNumber } from 'class-validator';
 export class CreateAlbumDto {
     @IsString()
     @IsNotEmpty()
-    @MaxLength(50)
+    @MaxLength(100)
     title: string;
 
     @IsNumber()

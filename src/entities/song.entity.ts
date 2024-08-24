@@ -3,7 +3,7 @@ import { AlbumEntity } from './album.entity'
 import { ArtistEntity } from './artist.entity'
 import { WriterEntity } from './writer.entity'
 
-@Entity()
+@Entity('songs')
 export class SongEntity {
   @PrimaryGeneratedColumn()
   id: number;

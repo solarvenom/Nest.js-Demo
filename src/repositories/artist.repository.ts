@@ -1,10 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { ArtistEntity } from "../entities/artist.entity";
 import { CreateArtistDto } from "../dtos/artist/create.artist.dto";
 
 @Injectable()
 export class ArtistRepository extends Repository<ArtistEntity> {
+  constructor(private dataSource: DataSource) {
+    super(ArtistEntity, dataSource.createEntityManager());
+  }
 
   async findAll(): Promise<ArtistEntity[]> {
     return this.find()
