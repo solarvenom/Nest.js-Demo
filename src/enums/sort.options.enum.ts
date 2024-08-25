@@ -5,5 +5,7 @@ export enum SortOptionsEnum {
     JUNE_PLAYS = 'junePlays',
     JULY_PLAYS = 'julyPlays',
     AUGUST_PLAYS = 'augustPlays',
-    OVERALL_PLAYS = 'overallPlays'
+    OVERALL_PLAYS = 'overallPlays',
+    SONGS = 'songs',
+    ALBUMS = 'albums'
 }

@@ -1,13 +1,8 @@
-import { MaxLength, IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateArtistDto } from './create.artist.dto'
 
-export class ListArtistDto {
-    @IsString()
-    @IsNotEmpty()
-    @MaxLength(50)
-    @ApiProperty({ example: 'The Prodigy' })
-    name: string;
-
+export class ListArtistDto extends CreateArtistDto {
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty({ example: 15 })

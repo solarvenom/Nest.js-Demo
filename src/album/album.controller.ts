@@ -12,11 +12,11 @@ export class AlbumController {
 
     @Get()
     @ApiTags('Albums')
-    @ApiOperation({ summary: 'Get a sorted list of all albums' })
+    @ApiOperation({ summary: 'Get a sortable list of all albums' })
     @ApiQuery({ name: 'sortBy', enum: [SortOptionsEnum.TITLE, SortOptionsEnum.YEAR], required: false  })
     @ApiQuery({ name: 'order',  enum: SortDirectionEnum, required: false })
     @ApiOkResponse({
-        description: 'List of sorted albums',
+        description: 'List of sortable albums',
         type: ListAlbumDto,
         isArray: true
     })

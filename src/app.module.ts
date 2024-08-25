@@ -4,14 +4,14 @@ import { HttpModule } from '@nestjs/axios'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { WriterRepository } from './repositories/writer.repository';
 import { SongRepository } from './repositories/song.repository';
 import { AlbumEntity } from './album/entities/album.entity';
 import { ArtistEntity } from './artist/entities/artist.entity';
-import { WriterEntity } from './entities/writer.entity';
+import { WriterEntity } from './writer/entities/writer.entity';
 import { SongEntity } from './entities/song.entity';
 import { AlbumModule } from './album/album.module';
 import { ArtistModule } from './artist/artist.module';
+import { WriterModule } from './writer/writer.module';
 
 @Module({
   imports: [
@@ -36,11 +36,11 @@ import { ArtistModule } from './artist/artist.module';
     }),
     AlbumModule,
     ArtistModule,
+    WriterModule,
   ],
   controllers: [AppController],
   providers: [
     AppService, 
-    WriterRepository,
     SongRepository
   ],
 })
