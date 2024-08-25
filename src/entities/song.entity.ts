@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
-import { AlbumEntity } from './album.entity'
+import { AlbumEntity } from '../album/entities/album.entity'
 import { ArtistEntity } from './artist.entity'
 import { WriterEntity } from './writer.entity'
 

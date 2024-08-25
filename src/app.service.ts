@@ -3,18 +3,14 @@ import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IGoogleSheetData } from './interfaces/IGoogleSheetData.interface'
 import { ISong } from './interfaces/ISong.interface'
-import { AlbumRepository } from './repositories/album.repository';
+import { AlbumRepository } from './album/album.repository';
 import { ArtistRepository } from './repositories/artist.repository';
 import { WriterRepository } from './repositories/writer.repository';
 import { SongRepository } from './repositories/song.repository';
-import { CreateAlbumDto } from './dtos/album/create.album.dto';
+import { CreateAlbumDto } from './album/dtos/create.album.dto';
 import { CreateArtistDto } from './dtos/artist/create.artist.dto';
 import { CreateWriterDto } from './dtos/writer/create.writer.dto';
 import { DataSource } from 'typeorm';
-import { AlbumEntity } from './entities/album.entity';
-import { ArtistEntity } from './entities/artist.entity';
-import { WriterEntity } from './entities/writer.entity';
-import { SongEntity } from './entities/song.entity';
 
 @Injectable()
 export class AppService {
