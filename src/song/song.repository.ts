@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Repository, DataSource, DeleteResult } from 'typeorm';
-import { SongEntity } from "../entities/song.entity";
-import { CreateSongDto } from "../dtos/song/create.song.dto";
+import { SongEntity } from "./entities/song.entity";
+import { CreateSongDto } from "./dtos/create.song.dto";
 
 @Injectable()
 export class SongRepository extends Repository<SongEntity> {

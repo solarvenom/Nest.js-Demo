@@ -6,7 +6,7 @@ import { ISong } from './interfaces/ISong.interface'
 import { AlbumRepository } from './album/album.repository';
 import { ArtistRepository } from './artist/artist.repository';
 import { WriterRepository } from './writer/writer.repository';
-import { SongRepository } from './repositories/song.repository';
+import { SongRepository } from './song/song.repository';
 import { CreateAlbumDto } from './album/dtos/create.album.dto';
 import { CreateArtistDto } from './artist/dtos/create.artist.dto';
 import { CreateWriterDto } from './writer/dtos/create.writer.dto';

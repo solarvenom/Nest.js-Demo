@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Generated } from 'typeorm';
-import { AlbumEntity } from '../album/entities/album.entity'
-import { ArtistEntity } from '../artist/entities/artist.entity'
-import { WriterEntity } from '../writer/entities/writer.entity'
+import { AlbumEntity } from '../../album/entities/album.entity'
+import { ArtistEntity } from '../../artist/entities/artist.entity'
+import { WriterEntity } from '../../writer/entities/writer.entity'
 
 @Entity('songs')
 export class SongEntity {

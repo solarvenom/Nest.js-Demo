@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ListAlbumDto } from './list.album.dto';
 import { CreateArtistDto } from '../../artist/dtos/create.artist.dto';
 import { CreateWriterDto } from '../../writer/dtos/create.writer.dto';
-import { CreateSongDto } from '../../dtos/song/create.song.dto';
+import { CreateSongDto } from '../../song/dtos/create.song.dto';
 
 export class InspectAlbumDto extends ListAlbumDto {
     @IsArray()
