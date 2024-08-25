@@ -10,7 +10,7 @@ export class WriterService {
         private readonly writerRepository: WriterRepository,
       ) {}
 
-    async getSortedArtists(
+    async getSortedWriters(
         sortBy:SortOptionsEnum.NAME | SortOptionsEnum.SONGS | SortOptionsEnum.ALBUMS, 
         order: SortDirectionEnum
     ): Promise<ListWriterDto[]> {

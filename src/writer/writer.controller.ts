@@ -11,7 +11,7 @@ export class WriterController {
     constructor(private readonly writerService: WriterService) {}
     
     @Get()
-    @ApiTags('Artists')
+    @ApiTags('Writers')
     @ApiOperation({ summary: 'Get a sortable list of writers with song and album count' })
     @ApiQuery({ name: 'sortBy', enum: [
         SortOptionsEnum.NAME, 
@@ -34,7 +34,7 @@ export class WriterController {
             SortOptionsEnum.ALBUMS,
         ]
 
-        return this.writerService.getSortedArtists(
+        return this.writerService.getSortedWriters(
             availableParams.includes(sortBy) ? sortBy : SortOptionsEnum.NAME, 
             order ? SortDirectionEnum[order.toUpperCase()] : SortDirectionEnum.ASC
         )

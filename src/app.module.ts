@@ -4,7 +4,6 @@ import { HttpModule } from '@nestjs/axios'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SongRepository } from './song/song.repository';
 import { AlbumEntity } from './album/entities/album.entity';
 import { ArtistEntity } from './artist/entities/artist.entity';
 import { WriterEntity } from './writer/entities/writer.entity';
@@ -42,8 +41,7 @@ import { SongModule } from './song/song.module';
   ],
   controllers: [AppController],
   providers: [
-    AppService, 
-    SongRepository
+    AppService,
   ],
 })
 export class AppModule {}
