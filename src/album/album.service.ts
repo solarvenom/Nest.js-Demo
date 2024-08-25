@@ -40,9 +40,9 @@ export class AlbumService {
                 return {
                     uuid: song.uuid,
                     title: song.title,
-                    june: song.june,
-                    july: song.july,
-                    august: song.august,
+                    junePlays: song.junePlays,
+                    julyPlays: song.julyPlays,
+                    augustPlays: song.augustPlays,
                 }
             }),
             artists: artists,

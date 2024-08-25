@@ -2,7 +2,8 @@ export enum SortOptionsEnum {
     TITLE = 'title',
     NAME = 'name',
     YEAR = 'year',
-    JUNE = 'june',
-    JULY = 'july',
-    AUGUST = 'august'
+    JUNE_PLAYS = 'junePlays',
+    JULY_PLAYS = 'julyPlays',
+    AUGUST_PLAYS = 'augustPlays',
+    OVERALL_PLAYS = 'overallPlays'
 }

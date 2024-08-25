@@ -31,7 +31,7 @@ export class AlbumRepository extends Repository<AlbumEntity> {
       .addSelect('COUNT(song.id)', 'songCount')
       .groupBy('album.id')
       .orderBy(`album.${sortBy}`, order)
-      .getRawMany();      
+      .getRawMany<ListAlbumDto>();      
   }
 
   async getAlbumDetailsByUUID(uuid: string): Promise<any> {

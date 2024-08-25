@@ -4,7 +4,7 @@ export interface ISong {
     author: string[],
     album: string,
     year: number | string,
-    june: number | string,
-    july: number | string,
-    august: number | string
+    junePlays: number | string,
+    julyPlays: number | string,
+    augustPlays: number | string
 }

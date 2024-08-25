@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Generated } from 'typeorm';
 import { AlbumEntity } from '../album/entities/album.entity'
-import { ArtistEntity } from './artist.entity'
+import { ArtistEntity } from '../artist/entities/artist.entity'
 import { WriterEntity } from './writer.entity'
 
 @Entity('songs')
@@ -16,13 +16,13 @@ export class SongEntity {
   title: string;
 
   @Column('int')
-  june: number;
+  junePlays: number;
 
   @Column('int')
-  july: number;
+  julyPlays: number;
 
   @Column('int')
-  august: number;
+  augustPlays: number;
 
   @ManyToOne(() => AlbumEntity, (album) => album.songs, { onDelete: 'CASCADE' })
   album: AlbumEntity

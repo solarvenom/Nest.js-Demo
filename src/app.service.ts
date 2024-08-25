@@ -4,11 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IGoogleSheetData } from './interfaces/IGoogleSheetData.interface'
 import { ISong } from './interfaces/ISong.interface'
 import { AlbumRepository } from './album/album.repository';
-import { ArtistRepository } from './repositories/artist.repository';
+import { ArtistRepository } from './artist/artist.repository';
 import { WriterRepository } from './repositories/writer.repository';
 import { SongRepository } from './repositories/song.repository';
 import { CreateAlbumDto } from './album/dtos/create.album.dto';
-import { CreateArtistDto } from './dtos/artist/create.artist.dto';
+import { CreateArtistDto } from './artist/dtos/create.artist.dto';
 import { CreateWriterDto } from './dtos/writer/create.writer.dto';
 import { DataSource } from 'typeorm';
 
@@ -64,9 +64,9 @@ export class AppService {
 
         songsToCreate.push({
           title: song.song,
-          june: Number(song.june),
-          july: Number(song.july),
-          august: Number(song.august),
+          junePlays: Number(song.junePlays),
+          julyPlays: Number(song.julyPlays),
+          augustPlays: Number(song.augustPlays),
           album: songAlbum,
           artists: songArtists,
           writers: songWriters
@@ -124,9 +124,9 @@ export class AppService {
         author: row.c[2].v.split('\n'),
         album: row.c[3].v,
         year: row.c[4].v,
-        june: row.c[5].v,
-        july: row.c[6].v,
-        august: row.c[7].v
+        junePlays: row.c[5].v,
+        julyPlays: row.c[6].v,
+        augustPlays: row.c[7].v
       }
     })
 

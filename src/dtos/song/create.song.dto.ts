@@ -8,13 +8,13 @@ export class CreateSongDto {
 
     @IsNumber()
     @IsNotEmpty()
-    june: number;
+    junePlays: number;
 
     @IsNumber()
     @IsNotEmpty()
-    july: number;
+    julyPlays: number;
 
     @IsNumber()
     @IsNotEmpty()
-    august: number;
+    augustPlays: number;
 }
