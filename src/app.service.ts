@@ -68,8 +68,8 @@ export class AppService {
           july: Number(song.july),
           august: Number(song.august),
           album: songAlbum,
-          artist: songArtists,
-          writer: songWriters
+          artists: songArtists,
+          writers: songWriters
         })
       }
 
@@ -143,16 +143,16 @@ export class AppService {
     for(const song of songList){
       const album: CreateAlbumDto = {title: song.album, year: Number(song.year)}
       
-      if(!albums.some(e => e.title == album.title)) albums.push(album)
+      if(!(albums.some((e) => e.title == album.title))) albums.push(album)
 
       for(const artistName of song.artist){
         const artist: CreateArtistDto = { name: artistName }
-        if(!artists.some(e => e.name == artist.name)) artists.push(artist)
+        if(!(artists.some((e) => e.name == artist.name))) artists.push(artist)
       }
 
       for(const writerName of song.author){
         const writer: CreateWriterDto = { name: writerName }
-        if(!writers.some(e => e.name == writer.name)) writers.push(writer)
+        if(!(writers.some((e) => e.name == writer.name))) writers.push(writer)
       }
     }
 

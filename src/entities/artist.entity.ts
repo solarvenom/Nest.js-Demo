@@ -10,7 +10,7 @@ export class ArtistEntity {
   @Generated("uuid")
   uuid: string;
 
-  @Column({ length: 50 })
+  @Column({ length: 50, unique: true })
   name: string;
 
   @ManyToMany(() => SongEntity, (song) => song.artists, { onDelete: 'CASCADE' })
