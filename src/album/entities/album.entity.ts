@@ -1,10 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Generated } from 'typeorm';
 import { SongEntity } from '../../entities/song.entity'
 
 @Entity('albums')
 export class AlbumEntity {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column()
+  @Generated("uuid")
+  uuid: string;
 
   @Column({ length: 100 })
   title: string;

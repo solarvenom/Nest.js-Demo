@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, Generated } from 'typeorm';
 import { AlbumEntity } from '../album/entities/album.entity'
 import { ArtistEntity } from './artist.entity'
 import { WriterEntity } from './writer.entity'
@@ -7,6 +7,10 @@ import { WriterEntity } from './writer.entity'
 export class SongEntity {
   @PrimaryGeneratedColumn()
   id: number;
+    
+  @Column()
+  @Generated("uuid")
+  uuid: string;
 
   @Column({ length: 50 })
   title: string;

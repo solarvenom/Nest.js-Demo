@@ -34,12 +34,11 @@ import { AlbumModule } from './album/album.module';
       ],
       synchronize: true,
     }),
-    AlbumModule
+    AlbumModule,
   ],
   controllers: [AppController],
   providers: [
     AppService, 
-    // AlbumRepository,
     ArtistRepository,
     WriterRepository,
     SongRepository
