@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, DeleteResult } from 'typeorm';
 import { SongEntity } from "../entities/song.entity";
 import { CreateSongDto } from "../dtos/song/create.song.dto";
 
@@ -20,5 +20,9 @@ export class SongRepository extends Repository<SongEntity> {
   async createSong(songDto: CreateSongDto): Promise<SongEntity> {
     const song = this.create(songDto)
     return this.save(song)
+  }
+
+  async isPopulated(): Promise<number> {
+    return this.count()
   }
 }

@@ -12,6 +12,6 @@ export class AlbumEntity {
   @Column('int')
   year: number;
 
-  @OneToMany(() => SongEntity, (song) => song.album)
+  @OneToMany(() => SongEntity, (song) => song.album, { onDelete: 'CASCADE' })
   songs: SongEntity[]
 }

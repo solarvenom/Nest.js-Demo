@@ -9,6 +9,6 @@ export class ArtistEntity {
   @Column({ length: 50 })
   name: string;
 
-  @ManyToMany(() => SongEntity, (song) => song.artist)
+  @ManyToMany(() => SongEntity, (song) => song.artists, { onDelete: 'CASCADE' })
   songs: SongEntity[]
 }

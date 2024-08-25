@@ -13,7 +13,7 @@ export class AppController {
 
   @Get('sync')
   @ApiOperation({ summary: 'When called this endpoint parses the songlist from the google table and populates the database with song data' })
-  syncSongData(): Promise<any> {
+  syncSongData(): Promise<void> {
     return this.appService.syncSongList()
   }
 }

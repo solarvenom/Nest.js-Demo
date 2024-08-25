@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, DeleteResult } from 'typeorm';
 import { ArtistEntity } from "../entities/artist.entity";
 import { CreateArtistDto } from "../dtos/artist/create.artist.dto";
 
@@ -20,5 +20,9 @@ export class ArtistRepository extends Repository<ArtistEntity> {
   async createArtist(artistDto: CreateArtistDto): Promise<ArtistEntity> {
     const artist = this.create(artistDto)
     return this.save(artist)
+  }
+
+  async isPopulated(): Promise<number> {
+    return this.count()
   }
 }

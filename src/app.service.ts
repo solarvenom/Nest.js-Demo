@@ -11,6 +11,10 @@ import { CreateAlbumDto } from './dtos/album/create.album.dto';
 import { CreateArtistDto } from './dtos/artist/create.artist.dto';
 import { CreateWriterDto } from './dtos/writer/create.writer.dto';
 import { DataSource } from 'typeorm';
+import { AlbumEntity } from './entities/album.entity';
+import { ArtistEntity } from './entities/artist.entity';
+import { WriterEntity } from './entities/writer.entity';
+import { SongEntity } from './entities/song.entity';
 
 @Injectable()
 export class AppService {
@@ -31,22 +35,26 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async syncSongList(): Promise<any> {
-    const songList = await this.fetchSongList()
-    const parsedAlbumsArtistsWriters = this.parseAlbumsArtistsWriters(songList)
+  async syncSongList(): Promise<void> {
 
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
 
     try {
+      const tablesPopulated = await this.areTablesPopulated()
+      if(tablesPopulated) await this.clearDb() 
+
+      const songList = await this.fetchSongList() 
+      const parsedAlbumsArtistsWriters = this.parseAlbumsArtistsWriters(songList)
+
       const [createdAlbums, createdArtists, createdWriters] = await Promise.all([
         this.albumRepository.create(parsedAlbumsArtistsWriters.albums),
         this.artistRepository.create(parsedAlbumsArtistsWriters.artists),
         this.writerRepository.create(parsedAlbumsArtistsWriters.writers),
       ])
 
-      const [savedAlbums, savedArtists, savedWriters] = await Promise.all([
+      await Promise.all([
         this.albumRepository.save(createdAlbums),
         this.artistRepository.save(createdArtists),
         this.writerRepository.save(createdWriters)
@@ -54,9 +62,9 @@ export class AppService {
 
       const songsToCreate = []
       for(const song of songList) {
-        const songAlbum = savedAlbums.find(album => album.title == song.album)
-        const songArtists = song.artist.map((songArtist) => savedArtists.find((artist) => artist.name == songArtist))
-        const songWriters = song.author.map((songWriter => savedWriters.find((writer) => writer.name == songWriter)))
+        const songAlbum = createdAlbums.find(album => album.title == song.album)
+        const songArtists = song.artist.map((songArtist) => createdArtists.find(artist => artist.name == songArtist))
+        const songWriters = song.author.map((songWriter => createdWriters.find(writer => writer.name == songWriter)))
 
         songsToCreate.push({
           title: song.song,
@@ -71,15 +79,33 @@ export class AppService {
 
       const createdSongs = this.songRepository.create(songsToCreate)
       await this.songRepository.save(createdSongs)
-
-      return [savedAlbums, savedArtists, savedWriters, createdSongs]
-      
     } catch (e) {
       await queryRunner.rollbackTransaction();
       throw e;
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async areTablesPopulated(): Promise<boolean> {
+    const [albumsPopulated, artistsPopulated, writersPopulated, songsPopulated] = await Promise.all([
+      this.albumRepository.isPopulated(),
+      this.artistRepository.isPopulated(),
+      this.writerRepository.isPopulated(),
+      this.songRepository.isPopulated()
+    ])
+
+    if(albumsPopulated || artistsPopulated || writersPopulated || songsPopulated) return true
+    return false
+  }
+
+  async clearDb(): Promise<void> {
+    await Promise.all([
+      this.albumRepository.delete({}),
+      this.artistRepository.delete({}),
+      this.writerRepository.delete({}),
+      this.songRepository.delete({})
+    ])
   }
 
   async fetchSongList(): Promise<ISong[]> {
@@ -116,7 +142,7 @@ export class AppService {
     artists: CreateArtistDto[],
     writers: CreateWriterDto[]
   } {
-    const [albums, artists, writers, songs] = [[], [], [], []]
+    const [albums, artists, writers] = [[], [], []]
 
     for(const song of songList){
       const album: CreateAlbumDto = {title: song.album, year: Number(song.year)}
