@@ -1,26 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource, DeleteResult } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { AlbumEntity } from "./entities/album.entity";
 import { SortOptionsEnum } from "../enums/sort.options.enum";
 import { SortDirectionEnum } from "../enums/sort.direction.enum";
 import { ListAlbumDto } from "./dtos/list.album.dto";
+import { SearchAlbumDto } from "./dtos/search.album.dto";
 
 @Injectable()
 export class AlbumRepository extends Repository<AlbumEntity> {
   constructor(private dataSource: DataSource) {
     super(AlbumEntity, dataSource.createEntityManager());
-  }
-
-  async findAll(): Promise<AlbumEntity[]> {
-    return this.find()
-  }
-
-  async findByTitle(title: string): Promise<AlbumEntity> {
-    return this.findOne({ where: { title: title }})
-  }
-
-  async findByYear(year: number): Promise<AlbumEntity> {
-    return this.findOne({ where: { year: year }})
   }
 
   async list(sortBy: SortOptionsEnum, order: SortDirectionEnum): Promise<ListAlbumDto[]> {
@@ -41,6 +30,15 @@ export class AlbumRepository extends Repository<AlbumEntity> {
       .leftJoinAndSelect('song.writers', 'writer')
       .where('album.uuid = :uuid', { uuid })
       .getOne();
+  }
+
+  async fullTextSearch(searchTerm: string): Promise<SearchAlbumDto[]> {
+    return this.createQueryBuilder('album')
+        .select([
+          'album.title as title', 
+          'album.uuid as uuid'])
+        .where('to_tsvector(album.title) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .getRawMany<SearchAlbumDto>();
   }
 
   async isPopulated(): Promise<number> {

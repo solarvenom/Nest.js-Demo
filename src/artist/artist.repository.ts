@@ -1,25 +1,17 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource, DeleteResult } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { ArtistEntity } from "./entities/artist.entity";
 import { CreateArtistDto } from "./dtos/create.artist.dto";
 import { SortOptionsEnum } from "../enums/sort.options.enum";
 import { SortDirectionEnum } from "../enums/sort.direction.enum";
 import { ListArtistDto } from "./dtos/list.artist.dto";
+import { SearchArtistDto } from "./dtos/search.artist.dto";
 
 @Injectable()
 export class ArtistRepository extends Repository<ArtistEntity> {
   constructor(private dataSource: DataSource) {
     super(ArtistEntity, dataSource.createEntityManager());
   }
-
-  async findAll(): Promise<ArtistEntity[]> {
-    return this.find()
-  }
-
-  async findByName(name: string): Promise<ArtistEntity> {
-    return this.findOne({ where: { name: name }})
-  }
-
 
   async list(sortBy: SortOptionsEnum, order: SortDirectionEnum): Promise<ListArtistDto[]> {
     return this.createQueryBuilder('artist')
@@ -37,6 +29,15 @@ export class ArtistRepository extends Repository<ArtistEntity> {
        sortBy === SortOptionsEnum.AUGUST_PLAYS ? SortOptionsEnum.AUGUST_PLAYS : 
        SortOptionsEnum.OVERALL_PLAYS, order)
     .getRawMany<ListArtistDto>(); 
+  }
+
+  async fullTextSearch(searchTerm: string): Promise<SearchArtistDto[]> {
+    return this.createQueryBuilder('artist')
+        .select([
+          'artist.name as name', 
+          'artist.uuid as uuid'])
+        .where('to_tsvector(artist.name) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .getRawMany<SearchArtistDto>();
   }
 
   async createArtist(artistDto: CreateArtistDto): Promise<ArtistEntity> {

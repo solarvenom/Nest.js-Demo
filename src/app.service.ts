@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 import { IGoogleSheetData } from './interfaces/IGoogleSheetData.interface'
 import { ISong } from './interfaces/ISong.interface'
 import { AlbumRepository } from './album/album.repository';
@@ -10,7 +11,6 @@ import { SongRepository } from './song/song.repository';
 import { CreateAlbumDto } from './album/dtos/create.album.dto';
 import { CreateArtistDto } from './artist/dtos/create.artist.dto';
 import { CreateWriterDto } from './writer/dtos/create.writer.dto';
-import { DataSource } from 'typeorm';
 
 @Injectable()
 export class AppService {
@@ -161,5 +161,26 @@ export class AppService {
       artists: artists,
       writers: writers,
     }
+  }
+
+  async fullTextSearch(searchTerm: string): Promise<any>{
+    const [
+      albumsResult,
+      artistsResult,
+      writersResult,
+      songsResult
+    ] = await Promise.all([
+      this.albumRepository.fullTextSearch(searchTerm),
+      this.artistRepository.fullTextSearch(searchTerm),
+      this.writerRepository.fullTextSearch(searchTerm),
+      this.songRepository.fullTextSearch(searchTerm)
+    ])
+
+    return [
+      ...albumsResult.map((result) => { return { ...result, type: 'album' }}),
+      ...artistsResult.map((result) => { return { ...result, type: 'artist' }}),
+      ...writersResult.map((result) => { return { ...result, type: 'writer' }}),
+      ...songsResult.map((result) => { return { ...result, type: 'song' }}),
+    ]
   }
 }

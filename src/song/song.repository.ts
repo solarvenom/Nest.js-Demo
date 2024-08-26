@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource, DeleteResult } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { SongEntity } from "./entities/song.entity";
-import { CreateSongDto } from "./dtos/create.song.dto";
+import { SearchSongDto } from "./dtos/search.song.dto";
 
 @Injectable()
 export class SongRepository extends Repository<SongEntity> {
@@ -9,17 +9,13 @@ export class SongRepository extends Repository<SongEntity> {
     super(SongEntity, dataSource.createEntityManager());
   }
 
-  async findAll(): Promise<SongEntity[]> {
-    return this.find()
-  }
-
-  async findByName(title: string): Promise<SongEntity> {
-    return this.findOne({ where: { title: title }})
-  }
-
-  async createSong(songDto: CreateSongDto): Promise<SongEntity> {
-    const song = this.create(songDto)
-    return this.save(song)
+  async fullTextSearch(searchTerm: string): Promise<SearchSongDto[]> {
+    return this.createQueryBuilder('song')
+        .select([
+          'song.title as title', 
+          'song.uuid as uuid'])
+        .where('to_tsvector(song.title) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .getRawMany<SearchSongDto>();
   }
 
   async isPopulated(): Promise<number> {

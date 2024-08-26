@@ -1,28 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { Repository, DataSource, DeleteResult } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { WriterEntity } from "./entities/writer.entity";
-import { CreateWriterDto } from "./dtos/create.writer.dto";
 import { SortDirectionEnum } from "../enums/sort.direction.enum";
 import { SortOptionsEnum } from "../enums/sort.options.enum";
 import { ListWriterDto } from "./dtos/list.writer.dto";
+import { SearchWriterDto } from "./dtos/search.writer.dto";
 
 @Injectable()
 export class WriterRepository extends Repository<WriterEntity> {
   constructor(private dataSource: DataSource) {
     super(WriterEntity, dataSource.createEntityManager());
-  }
-
-  async findAll(): Promise<WriterEntity[]> {
-    return this.find()
-  }
-
-  async findByName(name: string): Promise<WriterEntity> {
-    return this.findOne({ where: { name: name }})
-  }
-
-  async createWriter(writerDto: CreateWriterDto): Promise<WriterEntity> {
-    const writer = this.create(writerDto)
-    return this.save(writer)
   }
 
   async list(sortBy: SortOptionsEnum, order: SortDirectionEnum): Promise<ListWriterDto[]> {
@@ -41,6 +28,15 @@ export class WriterRepository extends Repository<WriterEntity> {
             order
         )
         .getRawMany<ListWriterDto>();
+  }
+
+  async fullTextSearch(searchTerm: string): Promise<SearchWriterDto[]> {
+    return this.createQueryBuilder('writer')
+        .select([
+          'writer.name as name', 
+          'writer.uuid as uuid'])
+        .where('to_tsvector(writer.name) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .getRawMany<SearchWriterDto>();
   }
 
   async isPopulated(): Promise<number> {
