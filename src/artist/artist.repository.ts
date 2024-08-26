@@ -13,6 +13,15 @@ export class ArtistRepository extends Repository<ArtistEntity> {
     super(ArtistEntity, dataSource.createEntityManager());
   }
 
+  async findAll(): Promise<ArtistEntity[]> {
+    return this.createQueryBuilder("artist")
+    .select([
+      'artist.name as name',
+      'artist.uuid as uuid'
+    ])
+    .getRawMany<ArtistEntity>();
+  }
+
   async list(sortBy: SortOptionsEnum, order: SortDirectionEnum): Promise<ListArtistDto[]> {
     return this.createQueryBuilder('artist')
     .innerJoin('artist.songs', 'song')

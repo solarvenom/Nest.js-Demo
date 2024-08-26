@@ -4,12 +4,26 @@ import { ListArtistDto } from './dtos/list.artist.dto'
 import { SortOptionsEnum } from '../enums/sort.options.enum';
 import { SortDirectionEnum } from '../enums/sort.direction.enum';
 import { ArtistService } from './artist.service';
+import { ArtistEntity } from './entities/artist.entity';
 
 @Controller('artists')
 export class ArtistController {
     constructor(private readonly artistService: ArtistService) {}
 
+
     @Get()
+    @ApiTags('Artists')
+    @ApiOperation({ summary: 'Get a list of all artists' })
+    @ApiOkResponse({
+        description: 'List of artists',
+        type: ListArtistDto,
+        isArray: true
+    })
+    async getAllArtists(): Promise<ArtistEntity[]> {
+        return this.artistService.getAllArtists()
+    }
+
+    @Get('/rankings')
     @ApiTags('Artists')
     @ApiOperation({ summary: 'Get a sortable list of artists with play data' })
     @ApiQuery({ name: 'sortBy', enum: [
@@ -40,7 +54,7 @@ export class ArtistController {
 
         return this.artistService.getSortedArtists(
             availableParams.includes(sortBy) ? sortBy : SortOptionsEnum.NAME, 
-            order ? SortDirectionEnum[order.toUpperCase()] : SortDirectionEnum.ASC
+            order ? SortDirectionEnum[order.toUpperCase()] : SortDirectionEnum.DESC
         )
     }
 }

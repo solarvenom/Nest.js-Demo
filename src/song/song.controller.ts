@@ -4,7 +4,7 @@ import { SongService } from './song.service';
 import { PaginateSongDto } from './dtos/paginate.song.dto';
 import { SongEntity } from './entities/song.entity';
 
-@Controller('song')
+@Controller('songs')
 export class SongController {
     constructor(private readonly songService: SongService) {}
     
