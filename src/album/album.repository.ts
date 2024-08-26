@@ -37,7 +37,7 @@ export class AlbumRepository extends Repository<AlbumEntity> {
         .select([
           'album.title as title', 
           'album.uuid as uuid'])
-        .where('to_tsvector(album.title) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .where('album.title ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
         .getRawMany<SearchAlbumDto>();
   }
 

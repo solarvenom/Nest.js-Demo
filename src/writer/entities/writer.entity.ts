@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, Generated } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, Generated, Index } from 'typeorm';
 import { SongEntity } from '../../song/entities/song.entity'
 
 @Entity('writers')
@@ -10,6 +10,7 @@ export class WriterEntity {
   @Generated("uuid")
   uuid: string;
 
+  @Index({ unique: true})
   @Column({ length: 50, unique: true })
   name: string;
 

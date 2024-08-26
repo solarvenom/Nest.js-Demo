@@ -14,7 +14,7 @@ export class SongRepository extends Repository<SongEntity> {
         .select([
           'song.title as title', 
           'song.uuid as uuid'])
-        .where('to_tsvector(song.title) @@ plainto_tsquery(:searchTerm)', { searchTerm })
+        .where('song.title ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
         .getRawMany<SearchSongDto>();
   }
 
