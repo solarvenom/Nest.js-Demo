@@ -45,7 +45,7 @@ export class ArtistRepository extends Repository<ArtistEntity> {
         .select([
           'artist.name as name', 
           'artist.uuid as uuid'])
-        .where('artist.name ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
+        .where('to_tsvector(artist.name) @@ plainto_tsquery(:searchTerm)', { searchTerm })
         .getRawMany<SearchArtistDto>();
   }
 

@@ -35,7 +35,7 @@ export class WriterRepository extends Repository<WriterEntity> {
         .select([
           'writer.name as name', 
           'writer.uuid as uuid'])
-        .where('writer.name ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })
+        .where('to_tsvector(writer.name) @@ plainto_tsquery(:searchTerm)', { searchTerm })
         .getRawMany<SearchWriterDto>();
   }
 
